@@ -1,0 +1,219 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "API",
+    "dateExported": "2024-02-19T01:59:16.990Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "9c2debbe-6397-48db-8563-da9cf3713450",
+            "colId": "de4bee07-0f64-4e19-8c57-d9c04d07aa08",
+            "containerId": "",
+            "name": "search",
+            "url": "http://www.localhost:3600/search?productName=bat",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-02-16T05:49:29.726Z",
+            "modified": "2024-02-16T05:52:21.935Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "productName",
+                    "value": "bat",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "ecee026b-55bc-417b-827b-f0122af3e83e",
+            "colId": "de4bee07-0f64-4e19-8c57-d9c04d07aa08",
+            "containerId": "",
+            "name": "add product",
+            "url": "http://www.localhost:3600/product?id=4&name=Badminton&price=1200&desc=This is badminton&stock=8",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2024-02-16T05:52:51.844Z",
+            "modified": "2024-02-16T05:54:42.735Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "4",
+                    "isPath": false
+                },
+                {
+                    "name": "name",
+                    "value": "Badminton",
+                    "isPath": false
+                },
+                {
+                    "name": "price",
+                    "value": "1200",
+                    "isPath": false
+                },
+                {
+                    "name": "desc",
+                    "value": "This is badminton",
+                    "isPath": false
+                },
+                {
+                    "name": "stock",
+                    "value": "8",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "3a75cd59-5aec-4141-b054-6344dbaba7dc",
+            "colId": "de4bee07-0f64-4e19-8c57-d9c04d07aa08",
+            "containerId": "",
+            "name": "update stock",
+            "url": "http://www.localhost:3600/product?id=4&stock=5",
+            "method": "PUT",
+            "sortNum": 50000,
+            "created": "2024-02-16T05:55:40.186Z",
+            "modified": "2024-02-16T09:54:57.897Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "4",
+                    "isPath": false
+                },
+                {
+                    "name": "stock",
+                    "value": "5",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "24f116c2-cc89-431a-af9c-e58554d68765",
+            "colId": "de4bee07-0f64-4e19-8c57-d9c04d07aa08",
+            "containerId": "",
+            "name": "delete product",
+            "url": "http://www.localhost:3600/product?id=4",
+            "method": "DELETE",
+            "sortNum": 60000,
+            "created": "2024-02-16T09:55:49.627Z",
+            "modified": "2024-02-16T09:57:13.344Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "4",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "4661a5d0-9a4e-4126-8d79-4a1b2776fc10",
+            "colId": "de4bee07-0f64-4e19-8c57-d9c04d07aa08",
+            "containerId": "",
+            "name": "checkout",
+            "url": "http://www.localhost:3600/checkout?productName=Football&id=2&stock=5",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2024-02-16T09:57:55.012Z",
+            "modified": "2024-02-16T09:58:28.251Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "productName",
+                    "value": "Football",
+                    "isPath": false
+                },
+                {
+                    "name": "id",
+                    "value": "2",
+                    "isPath": false
+                },
+                {
+                    "name": "stock",
+                    "value": "5",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "c22a6b87-2fbf-44db-97ea-7188f2a6405c",
+            "colId": "de4bee07-0f64-4e19-8c57-d9c04d07aa08",
+            "containerId": "",
+            "name": "create order",
+            "url": "http://www.localhost:3600/order?date=18/03/2024&address=Hyderabad&OID=b13e58c6-b951-4250-9760-35fdd861c06f",
+            "method": "PUT",
+            "sortNum": 80000,
+            "created": "2024-02-16T09:59:03.114Z",
+            "modified": "2024-02-16T10:00:15.802Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "date",
+                    "value": "18/03/2024",
+                    "isPath": false
+                },
+                {
+                    "name": "address",
+                    "value": "Hyderabad",
+                    "isPath": false
+                },
+                {
+                    "name": "OID",
+                    "value": "b13e58c6-b951-4250-9760-35fdd861c06f",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "ed9c2225-3fb4-4fd4-a8e9-f67468bf1fed",
+            "colId": "de4bee07-0f64-4e19-8c57-d9c04d07aa08",
+            "containerId": "",
+            "name": "see status",
+            "url": "http://www.localhost:3600/status?productName=Football",
+            "method": "GET",
+            "sortNum": 90000,
+            "created": "2024-02-16T10:01:00.020Z",
+            "modified": "2024-02-16T10:01:42.587Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "productName",
+                    "value": "Football",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "4408fd68-e069-43b8-95eb-6ec94e3e5ffe",
+            "colId": "de4bee07-0f64-4e19-8c57-d9c04d07aa08",
+            "containerId": "",
+            "name": "delete order",
+            "url": "http://www.localhost:3600/cancel?OID=b13e58c6-b951-4250-9760-35fdd861c06f&PID=2",
+            "method": "DELETE",
+            "sortNum": 100000,
+            "created": "2024-02-16T10:02:05.917Z",
+            "modified": "2024-02-16T10:02:49.164Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "OID",
+                    "value": "b13e58c6-b951-4250-9760-35fdd861c06f",
+                    "isPath": false
+                },
+                {
+                    "name": "PID",
+                    "value": "2",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        }
+    ]
+}
