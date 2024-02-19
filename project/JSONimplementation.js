@@ -95,19 +95,18 @@ function createTable(Database, Table_Name) {
  * @param {String} Table_Name the table that you want to read
  * @throws {Error} when there is some issue while reading the table
  */
-function readTable(Database, Table_Name) {
+async function readTable(Database, Table_Name) {
   const filePath = path.join(Database, Table_Name);
   
   // Use fs.promises.readFile to get a promise-based interface
-  return fs.readFile(filePath, 'utf8')
-    .then(data => {
-      console.log(`File '${filePath}' read successfully!`, data);
-      return JSON.parse(data); // Parse the JSON data
-    })
-    .catch(err => {
-      console.error(`Error reading file '${filePath}':`, err);
-      throw err; // Re-throw the error to propagate it
-    });
+  try {
+    const data = await fs.readFile(filePath, 'utf8');
+    console.log(`File '${filePath}' read successfully!`, data);
+    return JSON.parse(data);
+  } catch (err) {
+    console.error(`Error reading file '${filePath}':`, err);
+    throw err; // Re-throw the error to propagate it
+  }
 }
 
 /**This is a function to delete a table from a database

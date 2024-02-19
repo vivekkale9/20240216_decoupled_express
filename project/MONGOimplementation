@@ -1,0 +1,147 @@
+const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
+
+// Connect to MongoDB
+mongoose.connect('mongodb+srv://root:root@learningmongo.cr2lsf3.mongodb.net/');
+
+// Define the schema for product
+const productSchema = new mongoose.Schema({
+  id: String,
+  product_name: String,
+  product_price: Number,
+  desc: String,
+  stock: Number,
+});
+
+// Define the schema for order
+const orderSchema = new mongoose.Schema({
+  id: String,
+  product_name: String,
+  order_date: String,
+  address: String,
+  order_status: String,
+  total_cost: Number,
+  quantity: Number,
+});
+
+// Create models based on the schema
+const ProductModel = mongoose.model('Product', productSchema);
+const OrderModel = mongoose.model('Order', orderSchema);
+
+// Function to create a new product
+async function createRecord(Database, Table_Name, record) {
+  try {
+    const model = getModel(Table_Name);
+
+    // Generate a unique ID if not provided
+    record.id = record.id || uuidv4();
+
+    const newRecord = new model(record);
+    await newRecord.save();
+
+    console.log(`Record added successfully to ${Table_Name} collection.`);
+    return { success: true, message: 'Record added successfully' };
+  } catch (error) {
+    console.error(`Error adding record to ${Table_Name} collection:`, error);
+    throw { success: false, message: 'Failed to add the record' };
+  }
+}
+
+// Function to read a record
+async function readRecord(Database, Table_Name, targetId) {
+  try {
+    const model = getModel(Table_Name);
+    const targetRecord = await model.findOne({ id: targetId });
+
+    if (targetRecord) {
+      console.log(`Record with id '${targetId}' found in ${Table_Name} collection:`, targetRecord);
+      return targetRecord.toObject(); // Convert Mongoose document to plain JavaScript object
+    } else {
+      console.log(`Record with id '${targetId}' not found in ${Table_Name} collection.`);
+      return null;
+    }
+  } catch (error) {
+    console.error(`Error reading record from ${Table_Name} collection:`, error);
+    throw { success: false, message: 'Failed to read the record' };
+  }
+}
+
+// Function to update a record
+async function updateRecord(Database, Table_Name, targetId, newData) {
+  try {
+    const model = getModel(Table_Name);
+    
+    // Use $inc to increment the stock by the specified amount
+    const updatedRecord = await model.findOneAndUpdate({ id: targetId },newData, { new: true });
+
+    if (updatedRecord) {
+      console.log(`Record with id '${targetId}' updated in ${Table_Name} collection.`);
+      return true;
+    } else {
+      console.log(`Record with id '${targetId}' not found in ${Table_Name} collection.`);
+      return false;
+    }
+  } catch (error) {
+    console.error(`Error updating record in ${Table_Name} collection:`, error);
+    throw { success: false, message: 'Failed to update the record' };
+  }
+}
+
+
+// Function to delete a record
+async function deleteRecord(Database, Table_Name, targetId) {
+  try {
+    const model = getModel(Table_Name);
+    const deletedRecord = await model.findOneAndDelete({ id: targetId });
+
+    if (deletedRecord) {
+      console.log(`Record with id '${targetId}' deleted from ${Table_Name} collection.`);
+      return true;
+    } else {
+      console.log(`Record with id '${targetId}' not found in ${Table_Name} collection.`);
+      return false;
+    }
+  } catch (error) {
+    console.error(`Error deleting record from ${Table_Name} collection:`, error);
+    throw { success: false, message: 'Failed to delete the record' };
+  }
+}
+
+// Function to read a table
+async function readTable(Database, Table_Name) {
+  try {
+    const model = getModel(Table_Name);
+    
+    // Use Mongoose find method to retrieve all documents
+    const data = await model.find();
+
+    console.log(`Documents retrieved successfully from ${Table_Name} collection.`);
+    return data;
+  } catch (error) {
+    console.error(`Error reading documents from ${Table_Name} collection:`, error);
+    throw error; // Re-throw the error to propagate it
+  }
+}
+
+
+// Function to get the appropriate Mongoose model based on the table name
+function getModel(Table_Name) {
+  switch (Table_Name) {
+    case 'product.json':
+      return ProductModel;
+    case 'order.json':
+      return OrderModel;
+    // Add cases for other tables if needed
+    default:
+      throw new Error(`Unsupported table: ${Table_Name}`);
+  }
+}
+
+// Export the functions
+module.exports = {
+  createRecord,
+  readRecord,
+  updateRecord,
+  deleteRecord,
+  readTable,
+};

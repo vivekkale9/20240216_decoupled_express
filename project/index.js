@@ -2,7 +2,8 @@
  * which will perform some tasks using the MyDatabase program that we have 
  * created
  */
-const Database = require('./JSONimplementation');
+// const Database = require('./JSONimplementation');
+const Database = require('./MONGOimplementation');
 const express = require('express')
 const {v4:uuidv4} = require('uuid')
 
@@ -15,7 +16,7 @@ const port = 3600
 app.get('/search', async (req, res) => {
   try {
     let string_to_search = req.query.productName;
-    const data = await Database.readTable('tables', 'product.json');
+    const data = await Database.readTable('db_files', 'product.json');
     
     const filteredData = data.filter(entry => entry.product_name === string_to_search);
 
@@ -44,7 +45,7 @@ app.post('/product', async (req, res) => {
       stock: product_stock,
     };
 
-    let addProduct = await Database.createRecord('tables', 'product.json', new_product);
+    let addProduct = await Database.createRecord('db_files', 'product.json', new_product);
 
     res.json(addProduct);
   } catch (error) {
@@ -58,11 +59,13 @@ app.put('/product', async (req, res) => {
   let product_id = req.query.id
   let product_stock = parseInt(req.query.stock)
   try{
+    let read_stock = await Database.readRecord('db_files', 'product.json', product_id);
+    let currentStock = parseInt(read_stock.stock);
     
     let update_product = {
-      stock : product_stock
+      stock : product_stock + currentStock
     }
-    let added_product = await Database.updateRecord('tables','product.json',product_id,update_product)
+    let added_product = await Database.updateRecord('db_files','product.json',product_id,update_product)
     res.json(added_product);
   } catch (error) {
     console.error('Internal Server Error:', error);
@@ -74,7 +77,7 @@ app.put('/product', async (req, res) => {
 app.delete('/product', async (req, res) => {
   let product_id = req.query.id
   try{
-    let deleted_product = await Database.deleteRecord('tables','product.json',product_id)
+    let deleted_product = await Database.deleteRecord('db_files','product.json',product_id)
     res.json(deleted_product);
   } catch (error) {
     console.error('Internal Server Error:', error);
@@ -89,7 +92,7 @@ app.post('/checkout', async (req, res) => {
   let product_stock = parseInt(req.query.stock); // Convert the query stock to an integer
 
   try {
-    let read_stock = await Database.readRecord('tables', 'product.json', product_id);
+    let read_stock = await Database.readRecord('db_files', 'product.json', product_id);
 
     if (read_stock) {
       // Retrieve the current stock from the read_stock object
@@ -98,10 +101,11 @@ app.post('/checkout', async (req, res) => {
       // Check if the current stock is sufficient for the checkout
       if (currentStock >= product_stock) {
         // Subtract the query stock from the current stock
+        
         let updatedStock = currentStock - product_stock;
 
         // Update the stock in the database
-        await Database.updateRecord('tables', 'product.json', product_id, { stock: updatedStock });
+        await Database.updateRecord('db_files', 'product.json', product_id, { stock: updatedStock });
 
         res.json({ success: true, message: 'Checkout successful' });
       } else {
@@ -123,7 +127,7 @@ app.post('/checkout', async (req, res) => {
       total_cost: product_stock * price,
       quantity: product_stock
     }
-    Database.createRecord('tables','order.json',orderTB)
+    Database.createRecord('db_files','order.json',orderTB)
   } catch (error) {
     console.error('Internal Server Error:', error);
     res.status(500).json({ success: false, error: 'Internal Server Error' });
@@ -143,7 +147,7 @@ app.put('/order', async (req, res) => {
       order_status:"shipped",
     }
 
-    let upOrder = await Database.updateRecord('tables', 'order.json',order_number,crtOrder);
+    let upOrder = await Database.updateRecord('db_files', 'order.json',order_number,crtOrder);
 
     res.json(upOrder);
   } catch (error) {
@@ -156,7 +160,7 @@ app.put('/order', async (req, res) => {
 app.get('/status', async (req, res) => {
   try {
     let name_product = req.query.productName;
-    const data = await Database.readTable('tables', 'order.json');
+    const data = await Database.readTable('db_files', 'order.json');
     
     // Case-insensitive comparison and filtering
     const filteredData = data.filter(entry => entry.product_name.toLowerCase() === name_product.toLowerCase());
@@ -181,16 +185,16 @@ app.delete('/cancel', async (req, res) => {
   let product_id = req.query.PID
   try{
     // to retrieve the stock from product table
-    let product_stock = await Database.readRecord('tables', 'product.json', product_id);
+    let product_stock = await Database.readRecord('db_files', 'product.json', product_id);
     let currentStock = parseInt(product_stock.stock);
     // to retrieve the quantity bought from the order table
-    let order_quantity = await Database.readRecord('tables','order.json',order_id)
+    let order_quantity = await Database.readRecord('db_files','order.json',order_id)
     let prod_quantity = parseInt(order_quantity.quantity)
     // to update the stock back in product table
     let updatedQuantity = currentStock + prod_quantity
-    await Database.updateRecord('tables', 'product.json', product_id, { stock: updatedQuantity });
+    await Database.updateRecord('db_files', 'product.json', product_id, { stock: updatedQuantity });
     // to delete the order
-    await Database.deleteRecord('tables','order.json',order_id)
+    await Database.deleteRecord('db_files','order.json',order_id)
     res.json(true);
   } catch (error) {
     console.error('Internal Server Error:', error);

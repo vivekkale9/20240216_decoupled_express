@@ -1,0 +1,16 @@
+[
+  {
+    "id": "4",
+    "product_name": "Badminton",
+    "product_price": "1200",
+    "desc": "This is badminton",
+    "stock": 4
+  },
+  {
+    "id": "70",
+    "product_name": "vivek",
+    "product_price": "2000",
+    "desc": "This is a vivek",
+    "stock": -29
+  }
+]
