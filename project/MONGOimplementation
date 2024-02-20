@@ -28,7 +28,11 @@ const orderSchema = new mongoose.Schema({
 const ProductModel = mongoose.model('Product', productSchema);
 const OrderModel = mongoose.model('Order', orderSchema);
 
-// Function to create a new product
+/** Function to create a new product
+ * @param {String} Database the name of the database that you want to create product
+ * @param {String} Table_Name the name of the table that you want to add 
+ * @param {Object} record the record that you want to add
+ */ 
 async function createRecord(Database, Table_Name, record) {
   try {
     const model = getModel(Table_Name);
@@ -47,7 +51,11 @@ async function createRecord(Database, Table_Name, record) {
   }
 }
 
-// Function to read a record
+/** Function to read a record
+ * @param {String} Database the name of the database that you want to create product
+ * @param {String} Table_Name the name of the table that you want to add
+ * @param {Number} targetId the id of the product you want to search for
+ */
 async function readRecord(Database, Table_Name, targetId) {
   try {
     const model = getModel(Table_Name);
@@ -66,7 +74,12 @@ async function readRecord(Database, Table_Name, targetId) {
   }
 }
 
-// Function to update a record
+/** Function to update the record
+ * @param {String} Database the name of the database that you want to create product
+ * @param {String} Table_Name the name of the table that you want to add
+ * @param {Number} targetId the id of the product you want to search for
+ * @param {Number} newData the stock that you want to update
+ */
 async function updateRecord(Database, Table_Name, targetId, newData) {
   try {
     const model = getModel(Table_Name);
@@ -88,7 +101,11 @@ async function updateRecord(Database, Table_Name, targetId, newData) {
 }
 
 
-// Function to delete a record
+/** Function to delete the record from the table
+ * @param {String} Database the name of the database that you want to create product
+ * @param {String} Table_Name the name of the table that you want to add
+ * @param {Number} targetId the id of the product you want to search for
+ */
 async function deleteRecord(Database, Table_Name, targetId) {
   try {
     const model = getModel(Table_Name);
@@ -107,7 +124,10 @@ async function deleteRecord(Database, Table_Name, targetId) {
   }
 }
 
-// Function to read a table
+/** Function to read the entire table records
+ * @param {String} Database the name of the database that you want to create product
+ * @param {String} Table_Name the name of the table that you want to add
+ */
 async function readTable(Database, Table_Name) {
   try {
     const model = getModel(Table_Name);
